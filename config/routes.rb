@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 Blogger::Application.routes.draw do
 
-  #root to: 'articles#index'
-  root 'drinks#index'
+  root to: 'articles#index'
+  #root to: 'drinks#index'
   resources :articles do
   resources :comments
   end

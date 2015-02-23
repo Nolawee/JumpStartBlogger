@@ -10,4 +10,8 @@ class TagsController < ApplicationController
 		
 		redirect_to tags_path(@tag)
 	end
+	
+	def tag_params
+ 		params.require(:tag).permit(:tag_list)
+	end
 end
