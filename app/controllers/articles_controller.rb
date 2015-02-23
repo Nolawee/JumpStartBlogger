@@ -1,10 +1,10 @@
 class ArticlesController < ApplicationController
+	before_filter :zero_authors_or_authenticated, only: [:new, :create]
+	
 	def index
   		@articles = Article.all
 	end
-	def article_params
- 		params.require(:article).permit(:title, :body)
-	end
+
 	def show
 		@article = Article.find(params[:id])
 		@comment = Comment.new
@@ -30,11 +30,25 @@ class ArticlesController < ApplicationController
 
   		redirect_to article_path(@article)
 	end
-	before_filter :zero_authors_or_authenticated, only: [:new, :create]
+	def destroy
+		Article.find(params[:id]).destroy
+		
+		flash.notice = "Article Deleted!"
+		
+		redirect_to articles_path(@article)
+	end
+	
 
 	def zero_authors_or_authenticated
   		unless Author.count == 0 || current_user
     		redirect_to root_path
     		return false
   	end
+  end
+  	
+  
+  	def article_params
+ 		params.require(:article).permit(:title, :body, :tag_list, :image)
+	end
+  
 end
